@@ -1,11 +1,12 @@
 import pytest
 from playwright.sync_api import Playwright
-
+from time import sleep
 
 # отображение автарки на странице канала
 def test_img_1(authorization):
     authorization.locator(".freyja_char-header-user-menu__userAvatar__p5-3v").click()
-    authorization.get_by_role("link", name="🤍Testnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn").first.click()
+    #authorization.get_by_role("link", name="Тестовый тест").first.click()
+    authorization.locator("//*[@title='Тестовый тест']").click()
     authorization.get_by_role("img",
                               name="https://pic.rutubelist.ru/user/db/44/db44ca5899cf73c015643b642ca57a33.jpg").click()
     name_img = authorization.query_selector("//*[@class='pen-feed-banner__avatar-image']").get_attribute("alt")
@@ -31,16 +32,21 @@ def test_img_2(authorization):
 def test_banner(creating_page):
     page = creating_page
     page.goto("https://rutube.ru/")
-    buf_1 = page.query_selector(
-        "//*[@class='pen-video-carousel__slide pen-video-carousel__slide_inline-short-active']").get_attribute(
-        "data-key")
+
+    buf_1 = page.locator("//*[@class='pen-video-carousel__slide pen-video-carousel__slide_short-active']").get_attribute(
+        "data-slide")
     page.get_by_role("button", name="Предыдущий слайд").first.click()
-    buf_2 = page.query_selector(
-        "//*[@class='pen-video-carousel__slide pen-video-carousel__slide_inline-short-active']").get_attribute(
-        "data-key")
+
+    buf_2 = page.locator("//*[@class='pen-video-carousel__slide pen-video-carousel__slide_short-active']").get_attribute(
+        "data-slide")
+    # пауза на 1 секунду
+    sleep(1)
     page.get_by_role("button", name="Следующий слайд").first.click()
-    buf_3 = page.query_selector(
-        "//*[@class='pen-video-carousel__slide pen-video-carousel__slide_inline-short-active']").get_attribute(
-        "data-key")
-    assert buf_1 != buf_2  # шаг 6
-    assert buf_1 == buf_3  # шаг 8
+
+    buf_3 = page.locator("//*[@class='pen-video-carousel__slide pen-video-carousel__slide_short-active']").get_attribute(
+        "data-slide")
+
+    # шаг 6
+    assert buf_1 != buf_2
+    # шаг 8
+    assert buf_1 == buf_3
