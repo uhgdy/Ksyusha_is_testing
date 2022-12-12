@@ -3,21 +3,21 @@ from playwright.sync_api import Playwright
 from time import sleep
 
 # отображение автарки на странице канала
-def test_img_1(authorization):
-    authorization.locator(".freyja_char-header-user-menu__userAvatar__p5-3v").click()
+def test_img_1(authorization_ru):
+    authorization_ru.locator(".freyja_char-header-user-menu__userAvatar__p5-3v").click()
     #authorization.get_by_role("link", name="Тестовый тест").first.click()
-    authorization.locator("//*[@title='Тестовый тест']").click()
-    authorization.get_by_role("img",
+    authorization_ru.locator("//*[@title='Тестовый тест']").click()
+    authorization_ru.get_by_role("img",
                               name="https://pic.rutubelist.ru/user/db/44/db44ca5899cf73c015643b642ca57a33.jpg").click()
-    name_img = authorization.query_selector("//*[@class='pen-feed-banner__avatar-image']").get_attribute("alt")
+    name_img = authorization_ru.query_selector("//*[@class='pen-feed-banner__avatar-image']").get_attribute("alt")
     print(name_img)
     assert name_img != " " or len(name_img) != 0
 
 
 # отображение автарки в шапке справа
 # проверка сделана некорректно
-def test_img_2(authorization):
-    name_img = authorization.query_selector(
+def test_img_2(authorization_ru):
+    name_img = authorization_ru.query_selector(
         "//*[@class='freyja_char-header-user-menu__userAvatar__p5-3v']").get_attribute("style")
     print(name_img)
     assert name_img != " " or len(name_img) != 0
